@@ -106,6 +106,26 @@ ax.legend()
 # Display the plot in Streamlit
 st.pyplot(fig)
 
+# Plot student satisfaction scores over time
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Loop through each term to plot the student satisfaction scores
+for term in df['Term'].unique():
+    term_data = df[df['Term'] == term]
+    ax.plot(term_data['Year'], term_data['Student Satisfaction (%)'], label=f'{term} Term')
+
+# Set labels and title
+ax.set_xlabel('Year')
+ax.set_ylabel('Student Satisfaction (%)')
+ax.set_title('Student Satisfaction Scores Over the Years')
+
+# Show legend
+ax.legend()
+
+# Display the plot in Streamlit
+st.pyplot(fig)
+
+
 # Provide Key Findings & Actionable Insights
 st.subheader('Key Findings & Actionable Insights')
 
