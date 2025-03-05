@@ -125,6 +125,41 @@ ax.legend()
 # Display the plot in Streamlit
 st.pyplot(fig)
 
+# Plot retention rates by department
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Loop through each department to plot enrollment trends
+for dept in ['Engineering', 'Business', 'Arts', 'Science']:
+    ax.plot(df['Year'], df[f'{dept} Enrolled'], label=f'{dept} Enrollment')
+
+# Set labels and title
+ax.set_xlabel('Year')
+ax.set_ylabel('Number of Enrollments')
+ax.set_title('Enrollment Trends by Department')
+
+# Show legend
+ax.legend()
+
+# Display the plot in Streamlit
+st.pyplot(fig)
+
+# Compare satisfaction levels by department
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Loop through each department to plot satisfaction trends
+for dept in ['Engineering', 'Business', 'Arts', 'Science']:
+    ax.plot(df['Year'], df['Student Satisfaction (%)'], label=f'{dept} Satisfaction')
+
+# Set labels and title
+ax.set_xlabel('Year')
+ax.set_ylabel('Satisfaction (%)')
+ax.set_title('Student Satisfaction Trends by Department')
+
+# Show legend
+ax.legend()
+
+# Display the plot in Streamlit
+st.pyplot(fig)
 
 # Provide Key Findings & Actionable Insights
 st.subheader('Key Findings & Actionable Insights')
