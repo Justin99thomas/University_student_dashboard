@@ -87,6 +87,25 @@ ax[1].legend()
 plt.tight_layout()
 st.pyplot(fig)
 
+# Plot retention rate trends over time
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Loop through each term to plot the retention rate
+for term in df['Term'].unique():
+    term_data = df[df['Term'] == term]
+    ax.plot(term_data['Year'], term_data['Retention Rate (%)'], label=f'{term} Term')
+
+# Set labels and title
+ax.set_xlabel('Year')
+ax.set_ylabel('Retention Rate (%)')
+ax.set_title('Retention Rate Trends Over Time')
+
+# Show legend
+ax.legend()
+
+# Display the plot in Streamlit
+st.pyplot(fig)
+
 # Provide Key Findings & Actionable Insights
 st.subheader('Key Findings & Actionable Insights')
 
