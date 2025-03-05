@@ -87,6 +87,7 @@ ax[1].legend()
 plt.tight_layout()
 st.pyplot(fig)
 
+st.subheader('Retention Rate Trends Over Time')
 # Plot retention rate trends over time
 fig, ax = plt.subplots(figsize=(10, 6))
 
@@ -106,6 +107,7 @@ ax.legend()
 # Display the plot in Streamlit
 st.pyplot(fig)
 
+st.subheader('Student Satisfaction Scores Over the Years')
 # Plot student satisfaction scores over time
 fig, ax = plt.subplots(figsize=(10, 6))
 
@@ -125,6 +127,7 @@ ax.legend()
 # Display the plot in Streamlit
 st.pyplot(fig)
 
+st.subheader('Enrollment Trends by Department')
 # Plot retention rates by department
 fig, ax = plt.subplots(figsize=(10, 6))
 
@@ -143,6 +146,7 @@ ax.legend()
 # Display the plot in Streamlit
 st.pyplot(fig)
 
+st.subheader('Student Satisfaction Trends by Department')
 # Compare satisfaction levels by department
 fig, ax = plt.subplots(figsize=(10, 6))
 
