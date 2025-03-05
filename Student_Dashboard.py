@@ -1,6 +1,13 @@
+import os
+import subprocess
+
+# Install matplotlib if not already installed
+subprocess.check_call([os.sys.executable, "-m", "pip", "install", "matplotlib"])
+
+import matplotlib.pyplot as plt
+
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 
 # Load the dataset
 df = pd.read_csv('university_student_dashboard_data.csv')
