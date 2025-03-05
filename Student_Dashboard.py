@@ -52,12 +52,13 @@ st.subheader('Enrollment Breakdown by Department')
 department_enrollment = filtered_data[['Year', 'Term'] + department_columns]
 
 # Set 'Year' and 'Term' as index for the plot
-department_enrollment.set_index(['Year', 'Term']).plot(kind='bar', stacked=True, figsize=(12, 8))
+fig, ax = plt.subplots(figsize=(12, 8))
+department_enrollment.set_index(['Year', 'Term']).plot(kind='bar', stacked=True, ax=ax)
 
 plt.title('Enrollment Breakdown by Department')
 plt.ylabel('Number of Enrollments')
 plt.xlabel('Year and Term')
-st.pyplot()
+st.pyplot(fig)
 
 # Comparison Between Spring vs. Fall Term
 st.subheader('Comparison Between Spring vs. Fall Term')
