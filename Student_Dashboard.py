@@ -1,13 +1,6 @@
-import os
-import subprocess
-
-# Install matplotlib if not already installed
-subprocess.check_call([os.sys.executable, "-m", "pip", "install", "matplotlib"])
-
-import matplotlib.pyplot as plt
-
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # Load the dataset
 df = pd.read_csv('university_student_dashboard_data.csv')
@@ -25,7 +18,8 @@ if year_filter:
 if term_filter:
     filtered_data = filtered_data[filtered_data['Term'].isin(term_filter)]
 if department_filter:
-    filtered_data = filtered_data[['Year', 'Term'] + [f'{dept} Enrolled' for dept in department_filter]]
+    department_columns = [f'{dept} Enrolled' for dept in department_filter]
+    filtered_data = filtered_data[['Year', 'Term'] + department_columns]
 
 # Title
 st.title('University Student Trends Dashboard')
@@ -46,42 +40,15 @@ term_summary = filtered_data.groupby(['Year', 'Term']).agg({
 
 st.write(term_summary)
 
-# Plots
-st.subheader('Retention Rate Trends Over Time')
-fig, ax = plt.subplots(figsize=(10, 6))
-for term in filtered_data['Term'].unique():
-    term_data = filtered_data[filtered_data['Term'] == term]
-    ax.plot(term_data['Year'], term_data['Retention Rate (%)'], label=f'{term} Term')
-
-ax.set_xlabel('Year')
-ax.set_ylabel('Retention Rate (%)')
-ax.set_title('Retention Rate Trends Over Time')
-ax.legend()
-st.pyplot(fig)
-
-st.subheader('Student Satisfaction Trends Over Time')
-fig, ax = plt.subplots(figsize=(10, 6))
-for term in filtered_data['Term'].unique():
-    term_data = filtered_data[filtered_data['Term'] == term]
-    ax.plot(term_data['Year'], term_data['Student Satisfaction (%)'], label=f'{term} Term')
-
-ax.set_xlabel('Year')
-ax.set_ylabel('Student Satisfaction (%)')
-ax.set_title('Student Satisfaction Trends Over Time')
-ax.legend()
-st.pyplot(fig)
-
-# Enrollment Breakdown by Department
-# Ensure numeric data for department enrollment columns
-department_columns = [f'{dept} Enrolled' for dept in department_filter]
-
-# Convert enrollment columns to numeric, coercing errors to NaN
+# Ensure the department enrollment columns are numeric
+department_columns = ['Engineering Enrolled', 'Business Enrolled', 'Arts Enrolled', 'Science Enrolled']
 filtered_data[department_columns] = filtered_data[department_columns].apply(pd.to_numeric, errors='coerce')
 
-# Optionally, fill NaN values with 0 (or another method depending on your data)
+# Fill NaN values with 0 (you can change this if needed)
 filtered_data[department_columns] = filtered_data[department_columns].fillna(0)
 
-# Plotting Enrollment Breakdown by Department
+# Enrollment Breakdown by Department
+st.subheader('Enrollment Breakdown by Department')
 department_enrollment = filtered_data[['Year', 'Term'] + department_columns]
 
 # Set 'Year' and 'Term' as index for the plot
@@ -91,7 +58,6 @@ plt.title('Enrollment Breakdown by Department')
 plt.ylabel('Number of Enrollments')
 plt.xlabel('Year and Term')
 st.pyplot()
-
 
 # Comparison Between Spring vs. Fall Term
 st.subheader('Comparison Between Spring vs. Fall Term')
@@ -129,4 +95,3 @@ if filtered_data['Student Satisfaction (%)'].mean() < 75:
     st.write("The average student satisfaction is below 75%. Conducting surveys to understand student concerns and addressing them might help improve this.")
 if len(year_filter) > 0 and len(term_filter) > 0:
     st.write(f"Displaying data for the selected years: {', '.join(map(str, year_filter))} and terms: {', '.join(term_filter)}.")
-
