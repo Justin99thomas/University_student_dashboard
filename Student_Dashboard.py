@@ -72,13 +72,26 @@ ax.legend()
 st.pyplot(fig)
 
 # Enrollment Breakdown by Department
-st.subheader('Enrollment Breakdown by Department')
-department_enrollment = filtered_data[['Year', 'Term'] + [f'{dept} Enrolled' for dept in department_filter]]
+# Ensure numeric data for department enrollment columns
+department_columns = [f'{dept} Enrolled' for dept in department_filter]
+
+# Convert enrollment columns to numeric, coercing errors to NaN
+filtered_data[department_columns] = filtered_data[department_columns].apply(pd.to_numeric, errors='coerce')
+
+# Optionally, fill NaN values with 0 (or another method depending on your data)
+filtered_data[department_columns] = filtered_data[department_columns].fillna(0)
+
+# Plotting Enrollment Breakdown by Department
+department_enrollment = filtered_data[['Year', 'Term'] + department_columns]
+
+# Set 'Year' and 'Term' as index for the plot
 department_enrollment.set_index(['Year', 'Term']).plot(kind='bar', stacked=True, figsize=(12, 8))
+
 plt.title('Enrollment Breakdown by Department')
 plt.ylabel('Number of Enrollments')
 plt.xlabel('Year and Term')
 st.pyplot()
+
 
 # Comparison Between Spring vs. Fall Term
 st.subheader('Comparison Between Spring vs. Fall Term')
