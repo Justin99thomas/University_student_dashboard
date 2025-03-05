@@ -89,10 +89,29 @@ st.pyplot(fig)
 
 # Provide Key Findings & Actionable Insights
 st.subheader('Key Findings & Actionable Insights')
+
 # Example insights based on trends
-if filtered_data['Retention Rate (%)'].mean() < 80:
+average_retention_rate = filtered_data['Retention Rate (%)'].mean()
+average_satisfaction = filtered_data['Student Satisfaction (%)'].mean()
+
+# Retention Rate Insights
+if average_retention_rate < 80:
     st.write("The average retention rate is below 80%. It may be necessary to investigate the causes of student attrition.")
-if filtered_data['Student Satisfaction (%)'].mean() < 75:
+else:
+    st.write("The average retention rate is above 80%, indicating a relatively stable retention pattern.")
+
+# Student Satisfaction Insights
+if average_satisfaction < 75:
     st.write("The average student satisfaction is below 75%. Conducting surveys to understand student concerns and addressing them might help improve this.")
+else:
+    st.write("The average student satisfaction is above 75%, indicating generally positive student experiences.")
+
+# Add additional insights for selected filters
 if len(year_filter) > 0 and len(term_filter) > 0:
     st.write(f"Displaying data for the selected years: {', '.join(map(str, year_filter))} and terms: {', '.join(term_filter)}.")
+else:
+    st.write("No specific filters were applied. Displaying data for all available years and terms.")
+
+# Optional: Display average retention and satisfaction rates
+st.write(f"Average Retention Rate: {average_retention_rate:.2f}%")
+st.write(f"Average Student Satisfaction: {average_satisfaction:.2f}%")
